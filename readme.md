@@ -1,5 +1,7 @@
 # Dokumentacja aplikacji zarządzania sprzętem
 
+![obraz](https://github.com/user-attachments/assets/f19933af-48c3-4fc0-ba94-1f225738811c)
+
 ## 1. Opis projektu
 Aplikacja webowa stworzona w celu zarządzania sprzętem komputerowym w firmie. Umożliwia rejestrowanie sprzętu (laptopy, monitory, drukarki itp.), przypisywanie go do pracowników, lokalizacji oraz działów. Zapewnia pełną edycję, filtrowanie i przejrzystą prezentację danych.
 
@@ -95,8 +97,5 @@ python app.py
 # 3. (opcjonalnie) Załaduj dane testowe
 psql -U postgres -d sprzet_db -f sample_data.sql
 ```
-
-## 7. Autor
-Maksymilian Burdziej 
 
 
