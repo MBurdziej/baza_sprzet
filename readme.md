@@ -100,7 +100,7 @@ python app.py
 # 4. (opcjonalnie) Załaduj dane testowe
 psql -U postgres -d sprzet_db -f sample_data.sql
 
-# 4. Otwórz w przeglądarce
+# 5. Otwórz w przeglądarce
 http://127.0.0.1:5000
 ```
 
