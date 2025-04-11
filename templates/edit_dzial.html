@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>Edytuj dział</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+
+    <h2>Edytuj dział</h2>
+    <form action="/dzial/edit/{{ dzial.id }}" method="POST">
+        <label for="nazwa">Nazwa działu:</label><br>
+        <input type="text" id="nazwa" name="nazwa" value="{{ dzial.nazwa }}" required><br><br>
+
+        <label for="lokalizacja">Lokalizacja:</label><br>
+        <select id="lokalizacja" name="lokalizacja_id">
+            <option value="">-- Brak --</option>
+            {% for lok in lokalizacje %}
+                <option value="{{ lok.id }}" {% if dzial.lokalizacja_id == lok.id %}selected{% endif %}>
+                    {{ lok.nazwa }}
+                </option>
+            {% endfor %}
+        </select><br><br>
+
+        {% if dzial.sprzety %}
+        <p><strong>W przypadku zmiany lokalizacji: </strong><br>Co zrobić ze sprzętem przypisanym do tego działu?</p>
+
+
+        <input type="radio" id="usun" name="sprzet_akcja" value="usun" checked>
+        <label for="usun">Usuń przypisanie sprzętu do działu (lokalizacja sprzętu pozostaje)</label><br>
+
+        <input type="radio" id="przenies" name="sprzet_akcja" value="przenies">
+        <label for="przenies">Przenieś sprzęt razem z działem (zmień lokalizację sprzętu)</label><br><br>
+        {% endif %}
+
+        <button type="submit">Zapisz zmiany</button>
+    </form>
+
+    <br>
+    <a href="/dzialy{% if dzial.lokalizacja_id %}?lokalizacja_id={{ dzial.lokalizacja_id }}{% endif %}" style="font-size: 18px; text-decoration: none; color: blue;">Wróć do listy działów</a>
+
+</body>
+</html>

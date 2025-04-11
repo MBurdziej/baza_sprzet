@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodaj sprzęt</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+    <h2>Dodaj nowy sprzęt</h2>
+    <form action="/sprzet/add" method="post">
+        <label for="typ">Typ:</label>
+        <input type="text" id="typ" name="typ"><br><br>
+        
+        <label for="numer_seryjny">Numer seryjny:</label>
+        <input type="text" id="numer_seryjny" name="numer_seryjny"><br><br>
+        
+        <label for="model">Model:</label>
+        <input type="text" id="model" name="model"><br><br>
+        
+        <label for="producent">Producent:</label>
+        <input type="text" id="producent" name="producent"><br><br>
+
+        <label for="lokalizacja">Lokalizacja:</label>
+        <select id="lokalizacja" name="lokalizacja" onchange="loadDzialy()">
+            <option value="">-- Brak --</option>
+            {% for lokalizacja in lokalizacje %}
+                <option value="{{ lokalizacja.id }}">{{ lokalizacja.nazwa }}</option>
+            {% endfor %}
+        </select><br><br>
+        
+        <label for="dzial">Dział:</label>
+        <select id="dzial" name="dzial">
+            <option value="">-- Najpierw wybierz lokalizację --</option>
+        </select><br><br>
+        
+        
+        <label for="pracownik">Pracownik:</label>
+        <select id="pracownik" name="pracownik">
+            <option value="">-- Brak --</option>
+            {% for pracownik in pracownicy %}
+                <option value="{{ pracownik.id }}">{{ pracownik.imie }} {{ pracownik.nazwisko }}</option>
+            {% endfor %}
+        </select><br><br>
+        
+
+        <button type="submit">Dodaj sprzęt</button>
+    </form>
+
+    <br>
+    <a href="/" style="font-size: 18px; text-decoration: none; color: blue;">Powrót do strony głównej</a>
+
+
+    <script>
+        function loadDzialy() {
+            const lokalizacjaId = document.getElementById('lokalizacja').value;
+            const dzialSelect = document.getElementById('dzial');
+    
+            dzialSelect.innerHTML = '';
+    
+            if (!lokalizacjaId) {
+                dzialSelect.innerHTML = '<option value="">-- Najpierw wybierz lokalizację --</option>';
+                return;
+            }
+    
+            fetch(`/api/dzialy/${lokalizacjaId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length === 0) {
+                        dzialSelect.innerHTML = '<option value="">Brak działów</option>';
+                        return;
+                    }
+    
+                    dzialSelect.innerHTML = '<option value="">-- Wybierz dział --</option>';
+                    data.forEach(dzial => {
+                        const opt = document.createElement('option');
+                        opt.value = dzial.id;
+                        opt.textContent = dzial.nazwa;
+                        dzialSelect.appendChild(opt);
+                    });
+                });
+        }
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>Dzialy</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+</head>
+<body>
+    {% if lokalizacja %}
+    <h2>Działy w lokalizacji: <strong>{{ lokalizacja.nazwa }}</strong></h2>
+    {% else %}
+        <h2>Wszystkie działy</h2>
+    {% endif %}
+
+    <hr>
+
+    <h2>Lista działów</h2>
+    <table id="dzial_tab" border="1">
+        <thead>
+            <tr>
+                <th>Dział</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dzial in dzialy %}
+            <tr>
+                <td>{{ dzial.nazwa }}</td>
+                <td>
+                    <a href="/dzial/edit/{{ dzial.id }}">Edytuj</a>
+                    <a href="/dzial/delete/{{ dzial.id }}" 
+                    onclick="return confirmUsuniecie(this)" 
+                    data-sprzet-count="{{ dzial.sprzety|length }}">Usuń</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br><br>
+
+    <h3>Dodaj nowy dział do lokalizacji <strong>{{ lokalizacja.nazwa }}</strong></h3>
+    <form action="/dzial/add" method="POST">
+        <input type="hidden" name="lokalizacja_id" value="{{ lokalizacja.id }}">
+        
+        <label for="nazwa">Nazwa działu:</label>
+        <input type="text" id="nazwa" name="nazwa" required><br><br>
+    
+        <button type="submit">Dodaj dział</button>
+    </form>
+    <br>
+    <a href="/" style="font-size: 18px; text-decoration: none; color: blue;">Powrót do strony głównej</a>
+
+
+    <script>
+        function confirmUsuniecie(link) {
+            const sprzetCount = parseInt(link.getAttribute('data-sprzet-count'));
+        
+            let message = "Czy na pewno chcesz usunąć ten dział?";
+            if (sprzetCount > 0) {
+                message += `\n\nUwaga: Ten dział ma przypisane ${sprzetCount} sprzęt${sprzetCount === 1 ? '' : 'y'}.\n` +
+                           "Po usunięciu działu sprzęt zostanie bez przypisanego działu, ale zachowa lokalizację.";
+            }
+        
+            return confirm(message);
+        }
+    </script>
+        
+
+    <script>
+        $(document).ready(function () {
+          $('#dzial_tab').DataTable({
+            language: {
+              url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pl.json"
+            }
+          });
+        });
+    </script>
+</body>
+</html>

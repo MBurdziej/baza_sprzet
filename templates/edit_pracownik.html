@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>Edytuj pracownika</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+    <h2>Edytuj pracownika</h2>
+
+    <form action="/pracownik/edit/{{ pracownik.id }}" method="POST">
+        <label for="imie">Imię:</label><br>
+        <input type="text" id="imie" name="imie" value="{{ pracownik.imie }}" required><br><br>
+
+        <label for="nazwisko">Nazwisko:</label><br>
+        <input type="text" id="nazwisko" name="nazwisko" value="{{ pracownik.nazwisko }}" required><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" value="{{ pracownik.email or '' }}"><br><br>
+
+        <label for="telefon">Telefon:</label><br>
+        <input type="text" id="telefon" name="telefon" value="{{ pracownik.telefon or '' }}"><br><br>
+
+        <button type="submit">Zapisz zmiany</button>
+    </form>
+
+    <br>
+    <a href="/pracownik" style="font-size: 18px; text-decoration: none; color: blue;">Powrót do listy pracowników</a>
+</body>
+</html>

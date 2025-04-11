@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edytuj sprzęt</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+    <h1>Edytuj sprzęt</h1>
+
+    <form action="/sprzet/edit/{{ sprzet.id }}" method="POST">
+        <label for="typ">Typ:</label><br>
+        <input type="text" id="typ" name="typ" value="{{ sprzet.typ }}"><br><br>
+
+        <label for="numer_seryjny">Numer seryjny:</label><br>
+        <input type="text" id="numer_seryjny" name="numer_seryjny" value="{{ sprzet.numer_seryjny }}"><br><br>
+
+        <label for="model">Model:</label><br>
+        <input type="text" id="model" name="model" value="{{ sprzet.model }}"><br><br>
+
+        <label for="producent">Producent:</label><br>
+        <input type="text" id="producent" name="producent" value="{{ sprzet.producent }}"><br><br>
+
+        <label for="lokalizacja">Lokalizacja:</label><br>
+        <select id="lokalizacja" name="lokalizacja" onchange="loadDzialy()">
+            <option value="">-- Brak --</option>
+            {% for lokalizacja in lokalizacje %}
+                <option value="{{ lokalizacja.id }}" {% if lokalizacja.id == sprzet.lokalizacja_id %}selected{% endif %}>
+                    {{ lokalizacja.nazwa }}
+                </option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="dzial">Dział:</label><br>
+        <select id="dzial" name="dzial">
+            <option value="">-- Wybierz lokalizację --</option>
+            {% for dzial in dzialy %}
+                {% if dzial.lokalizacja_id == sprzet.lokalizacja_id %}
+                    <option value="{{ dzial.id }}" {% if dzial.id == sprzet.dzial_id %}selected{% endif %}>
+                        {{ dzial.nazwa }}
+                    </option>
+                {% endif %}
+            {% endfor %}
+        </select><br><br>
+
+        <label for="pracownik">Pracownik:</label><br>
+        <select id="pracownik" name="pracownik">
+            <option value="">-- Brak --</option>
+            {% for pracownik in pracownicy %}
+                <option value="{{ pracownik.id }}" {% if pracownik.id == sprzet.pracownik_id %}selected{% endif %}>
+                    {{ pracownik.imie }} {{ pracownik.nazwisko }}
+                </option>
+            {% endfor %}
+        </select><br><br>
+
+        <input type="submit" value="Zapisz zmiany">
+    </form>
+
+    <br>
+    <a href="/" style="font-size: 18px; text-decoration: none; color: blue;">Powrót do listy sprzętu</a>
+
+    <script>
+        const dzialIdFromSprzet = "{{ sprzet.dzial_id }}";
+
+        function loadDzialy() {
+            const lokalizacjaId = document.getElementById('lokalizacja').value;
+            const dzialSelect = document.getElementById('dzial');
+
+            dzialSelect.innerHTML = '';
+
+            if (!lokalizacjaId) {
+                dzialSelect.innerHTML = '<option value="">-- Wybierz lokalizację --</option>';
+                return;
+            }
+
+            fetch(`/api/dzialy/${lokalizacjaId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length === 0) {
+                        dzialSelect.innerHTML = '<option value="">Brak działów</option>';
+                        return;
+                    }
+
+                    dzialSelect.innerHTML = '<option value="">-- Wybierz dział --</option>';
+                    data.forEach(dzial => {
+                        const opt = document.createElement('option');
+                        opt.value = dzial.id;
+                        opt.textContent = dzial.nazwa;
+                        if (dzial.id == dzialIdFromSprzet) {
+                            opt.selected = true;
+                        }
+                        dzialSelect.appendChild(opt);
+                    });
+                });
+        }
+
+        window.onload = function () {
+            if (document.getElementById('lokalizacja').value) {
+                loadDzialy();
+            }
+        };
+    </script>
+</body>
+</html>

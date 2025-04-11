@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>Edytuj lokalizację</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+    <h2>Edytuj lokalizację</h2>
+
+    <form action="/lokalizacja/edit/{{ lokalizacja.id }}" method="POST">
+        <label for="nazwa">Nazwa lokalizacji:</label><br>
+        <input type="text" id="nazwa" name="nazwa" value="{{ lokalizacja.nazwa }}" required><br><br>
+
+        <label for="adres">Adres:</label><br>
+        <input type="text" id="adres" name="adres" value="{{ lokalizacja.adres }}"><br><br>
+
+        <button type="submit">Zapisz zmiany</button>
+    </form>
+
+    <br>
+    <a href="/lokalizacja" style="font-size: 18px; text-decoration: none; color: blue;">Powrót do listy lokalizacji</a>
+</body>
+</html>

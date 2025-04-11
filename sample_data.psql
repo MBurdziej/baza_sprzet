@@ -1,0 +1,69 @@
+-- Lokalizacje
+INSERT INTO lokalizacja (nazwa, adres) VALUES 
+('Gdansk', 'ul. Dluga 10'),
+('Warszawa', 'ul. Marszalkowska 123'),
+('Krakow', 'ul. Grodzka 7'),
+('Wroclaw', 'ul. Pilsudskiego 45'),
+('Poznan', 'ul. Glowna 9'),
+('Szczecin', 'ul. Morska 3');
+
+-- Dzialy
+INSERT INTO dzial (nazwa, lokalizacja_id) VALUES 
+('IT', 1),
+('Logistyka', 1),
+('HR', 2),
+('Produkcja', 2),
+('Marketing', 3),
+('Ksiegowosc', 3),
+('Biurowy', 4),
+('Wsparcie', 4),
+('Planowanie', 5),
+('Badania', 5),
+('Obsluga klienta', 6),
+('Zarzad', 6);
+
+-- Pracownicy
+INSERT INTO pracownik (imie, nazwisko, email, telefon) VALUES 
+('Anna', 'Nowak', 'anna.nowak@example.com', '500100100'),
+('Marek', 'Kowalski', 'marek.kowalski@example.com', '511200200'),
+('Kasia', 'Wisniewska', 'kasia.w@example.com', '522300300'),
+('Tomasz', 'Mazur', 't.mazur@example.com', '533400400'),
+('Julia', 'Lewandowska', 'julia.l@example.com', '544500500'),
+('Pawel', 'Wojcik', 'pawel.w@example.com', '555600600'),
+('Natalia', 'Zielinska', 'natalia.z@example.com', '566700700'),
+('Bartek', 'Kaminski', 'bartek.k@example.com', '577800800'),
+('Agnieszka', 'Dabrowska', 'a.dabrowska@example.com', '588900900'),
+('Lukasz', 'Krol', 'lukasz.k@example.com', '599001001'),
+('Zuzanna', 'Kaczmarek', 'zuzanna.k@example.com', '501101101'),
+('Adam', 'Jankowski', 'adam.j@example.com', '502202202'),
+('Ewa', 'Szymanska', 'ewa.s@example.com', '503303303'),
+('Patryk', 'Wasilewski', 'patryk.w@example.com', '504404404'),
+('Ola', 'Baran', 'ola.b@example.com', '505505505');
+
+-- Sprzet
+INSERT INTO sprzet (typ, numer_seryjny, model, producent, lokalizacja_id, dzial_id, pracownik_id) VALUES 
+('Laptop', 'SN1001', 'ThinkPad X1', 'Lenovo', 1, 1, 1),
+('Monitor', 'SN1002', 'Dell U2723QE', 'Dell', 1, 2, 2),
+('Drukarka', 'SN1003', 'HP LaserJet', 'HP', 2, 4, 3),
+('Laptop', 'SN1004', 'MacBook Pro', 'Apple', 2, 3, 4),
+('Router', 'SN1005', 'Cisco 2900', 'Cisco', 3, 5, 5),
+('Tablet', 'SN1006', 'iPad Air', 'Apple', 3, 6, 6),
+('Monitor', 'SN1007', 'Samsung 24"', 'Samsung', 4, 7, 7),
+('Laptop', 'SN1008', 'Dell Latitude', 'Dell', 4, 8, 8),
+('Drukarka', 'SN1009', 'Canon Pixma', 'Canon', 5, 9, 9),
+('Laptop', 'SN1010', 'HP EliteBook', 'HP', 5, 10, 10),
+('Switch', 'SN1011', 'Netgear 16P', 'Netgear', 6, 11, 11),
+('Monitor', 'SN1012', 'LG UltraFine', 'LG', 6, 12, 12),
+('Laptop', 'SN1013', 'Acer Swift 3', 'Acer', 1, 1, 13),
+('Tablet', 'SN1014', 'Samsung Galaxy Tab', 'Samsung', 1, 2, 14),
+('Laptop', 'SN1015', 'Lenovo Yoga', 'Lenovo', 2, 3, 15),
+('Monitor', 'SN1016', 'BenQ 27"', 'BenQ', 2, 4, 1),
+('Router', 'SN1017', 'TP-Link AX50', 'TP-Link', 3, 5, 2),
+('Laptop', 'SN1018', 'Asus ZenBook', 'Asus', 3, 6, 3),
+('Drukarka', 'SN1019', 'Brother HL', 'Brother', 4, 7, 4),
+('Switch', 'SN1020', 'TP-Link 24P', 'TP-Link', 4, 8, 5),
+('Laptop', 'SN1021', 'MacBook Air', 'Apple', 5, 9, 6),
+('Monitor', 'SN1022', 'Philips 27"', 'Philips', 5, 10, 7),
+('Tablet', 'SN1023', 'Lenovo Tab M10', 'Lenovo', 6, 11, 8),
+('Laptop', 'SN1024', 'HP Pavilion', 'HP', 6, 12, 9),
+('Router', 'SN1025', 'Ubiquiti Edge', 'Ubiquiti', 1, 1, 10);

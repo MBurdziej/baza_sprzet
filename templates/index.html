@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>Sprzęt</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+
+
+
+    <h1>Sprzęt</h1>
+    <hr>
+
+
+    <a href="/lokalizacja" style="font-size: 18px; text-decoration: none; color: blue;">
+        Tabela lokacji
+    </a>
+    <a>&nbsp;&nbsp;&nbsp;</a>
+    <a href="/pracownik" style="font-size: 18px; text-decoration: none; color: blue;">
+        Tabela pracowników
+    </a>
+
+    
+
+    <h2>Lista sprzętu</h2>
+    <table id="sprzet_tab" border="1">
+        <thead>
+            <tr>
+                <th>Typ</th>
+                <th>Numer seryjny</th>
+                <th>Model</th>
+                <th>Producent</th>
+                <th>Lokalizacja</th>
+                <th>Dział</th>
+                <th>Pracownik</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sprzet in sprzety %}
+            <tr>
+                <td>{{ sprzet.typ }}</td>
+                <td>{{ sprzet.numer_seryjny }}</td>
+                <td>{{ sprzet.model }}</td>
+                <td>{{ sprzet.producent }}</td>
+                <td>{{ sprzet.lokalizacja.nazwa }}</td>
+                <td>{{ sprzet.dzial.nazwa }}</td>
+                <td>{{ sprzet.pracownik.imie }} {{ sprzet.pracownik.nazwisko }}</td>
+                <td>
+                    <a href="/sprzet/edit/{{ sprzet.id }}">Edytuj</a>
+                    <a href="/sprzet/delete/{{ sprzet.id }}" onclick="return confirm('Na pewno chcesz usunąć ten sprzęt?')">Usuń</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+
+    <a href="/sprzet/add" style="font-size: 18px; text-decoration: none; color: blue;">Dodaj sprzęt</a>
+
+
+    <script>
+        $(document).ready(function () {
+          $('#sprzet_tab').DataTable({
+            language: {
+              url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pl.json"
+            }
+          });
+        });
+      </script>
+      
+
+</body>
+</html>

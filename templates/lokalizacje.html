@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>Lokalizacje</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+</head>
+<body>
+    <h1>Lokalizacje</h1>
+    <hr>
+
+    <h2>Lista lokalizacji</h2>
+    <table id="lokalizacje_tab" border="1">
+        <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Adres</th>
+                <th>Dzialy</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for lokalizacja in lokalizacje %}
+            <tr>
+                <td>{{ lokalizacja.nazwa }}</td>
+                <td>{{ lokalizacja.adres }}</td>
+                <td>
+                    <a href="/dzialy?lokalizacja_id={{ lokalizacja.id }}">Pokaż działy</a>
+                </td>
+                <td>
+                    <a href="/lokalizacja/edit/{{ lokalizacja.id }}">Edytuj</a>
+                    <a href="/lokalizacja/delete/{{ lokalizacja.id }}"
+                    onclick="return confirmUsunLokalizacje(this)"
+                    data-sprzet-count="{{ lokalizacja.sprzety|length }}"
+                    data-dzial-count="{{ lokalizacja.dzialy|length }}">Usuń</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br><br>
+
+    <h3>Dodaj nową lokalizację</h3>
+    <form action="/lokalizacja/add" method="POST">
+        <label for="nazwa">Nazwa lokalizacji:</label>
+        <input type="text" id="nazwa" name="nazwa" required><br><br>
+
+        <label for="adres">Adres:</label>
+        <input type="text" id="adres" name="adres"><br><br>
+
+        <button type="submit">Dodaj lokalizację</button>
+    </form>
+
+    <br>
+    <a href="/" style="font-size: 18px; text-decoration: none; color: blue;">Powrót do strony głównej</a>
+
+
+    <script>
+        function confirmUsunLokalizacje(link) {
+            const sprzetCount = parseInt(link.dataset.sprzetCount);
+            const dzialCount = parseInt(link.dataset.dzialCount);
+        
+            let msg = `Czy na pewno chcesz usunąć tę lokalizację?\n\n`;
+        
+            if (sprzetCount > 0) {
+                msg += `- ${sprzetCount} sprzęt${sprzetCount === 1 ? '' : 'ów'} zostanie bez przypisanej lokalizacji.\n`;
+            }
+            if (dzialCount > 0) {
+                msg += `- ${dzialCount} dział${dzialCount === 1 ? '' : 'ów'} zostanie usunięty.\n`;
+            }
+        
+            if (sprzetCount === 0 && dzialCount === 0) {
+                msg += `Nie są przypisane żadne sprzęty ani działy.`;
+            }
+        
+            return confirm(msg);
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+        $('#lokalizacje_tab').DataTable({
+            language: {
+            url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pl.json"
+            }
+        });
+        });
+    </script>
+        
+</body>
+</html>
