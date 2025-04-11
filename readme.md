@@ -89,13 +89,19 @@ project_folder/
 ### Kroki:
 ```bash
 # 1. Zainstaluj wymagane biblioteki
-pip install flask psycopg2 sqlalchemy
+pip install flask flask_sqlalchemy flask_migrate
 
-# 2. Uruchom aplikację
+# 2. Stwórz bazę danych
+createdb -U postgres sprzet_db
+
+# 3. Uruchom aplikację
 python app.py
 
-# 3. (opcjonalnie) Załaduj dane testowe
+# 4. (opcjonalnie) Załaduj dane testowe
 psql -U postgres -d sprzet_db -f sample_data.sql
+
+# 4. Otwórz w przeglądarce
+http://127.0.0.1:5000
 ```
 
 
